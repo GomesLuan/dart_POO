@@ -1,21 +1,64 @@
+import 'dart:io';
+
 void main() {
   Produto prod1 = Produto();
-  prod1.descricao = 'Café Preto';
-  prod1.preco = 10;
+  prod1.descricao = 'X-Tudo';
+  prod1.preco = 12;
   Produto prod2 = Produto();
-  prod2.descricao = 'Milho Verde';
-  prod2.preco = 5;
-  Item item1 = Item();
-  item1.quant = 10;
-  item1.produto = prod1;
-  Item item2 = Item();
-  item2.quant = 15;
-  item2.produto = prod2;
-  Venda venda1 = Venda();
-  venda1.data = '08/03/2023';
-  venda1.itens = [item1, item2];
-  double valorVenda1 = venda1.total();
-  print('Venda 1: $valorVenda1');
+  prod2.descricao = 'Batata Frita';
+  prod2.preco = 7;
+  Produto prod3 = Produto();
+  prod3.descricao = '1L de Pitu';
+  prod3.preco = 15;
+  List<Produto> produtos = [prod1, prod2, prod3];
+  String? opcao_venda;
+  String? opcao_item;
+  do {
+    List<Item> itens = [];
+    do {
+      cardapio();
+      print("\nEscolha uma opção: ");
+      int? prod = int.parse(stdin.readLineSync()!);
+      print("Quantas unidades deseja adicionar? ");
+      int? quant = int.parse(stdin.readLineSync()!);
+      Item item = Item();
+      item.produto = produtos[prod-1];
+      item.quant = quant;
+      print("Item adicionado à sacola!");
+      itens.add(item);
+      print("Quer adicionar mais itens? (s/n): ");
+      opcao_item = stdin.readLineSync();
+    } while (opcao_item == 's'); 
+    Venda venda = Venda();
+    venda.data = '09/03/2023';
+    venda.itens = itens;
+    detalhes_venda(venda);
+    print("\nQuer realizar uma nova venda? (s/n): ");
+    opcao_venda = stdin.readLineSync();
+  } while (opcao_venda == 's');
+}
+
+void cardapio() {
+  print(Process.runSync("clear", [], runInShell: true).stdout);
+  print('########################################');
+  print('#           C A R D Á P I O            #');
+  print('########################################');
+  print('#     1 - X-Tudo (R\$ 12.00)            #');
+  print('#     2 - Batata Frita (R\$ 7.00)       #');
+  print('#     3 - 1L de Pitu (R\$ 15.00)        #');
+  print('########################################');
+}
+
+void detalhes_venda(Venda venda) {
+  print(Process.runSync("clear", [], runInShell: true).stdout);
+  print('########################################');
+  print('#  D E T A L H E S   D A   V E N D A   #');
+  print('########################################');
+  for (Item item in venda.itens) {
+    print("# ${item.produto.descricao} (${item.quant}x): R\$ ${item.total()}");
+  }
+  print("# Total: R\$ ${venda.total()}");
+  print('########################################');
 }
 
 class Venda {
