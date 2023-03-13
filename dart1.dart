@@ -16,7 +16,7 @@ void detalhesVenda(Venda venda) {
   print('#  D E T A L H E S   D A   V E N D A   #');
   print('########################################');
   print('# Data: ${venda.data}');
-  print(venda.itens.map((item) => '# ${item.produto.descricao} (${item.quant}x): R\$ ${item.total()}').reduce((v, e) => '$v \n$e'));
+  print(venda.itens.fold('#', (v, e) => '$v ${e.produto.descricao} (${e.quant}x): R\$ ${e.total()}\n#'));
   print("# Total: R\$ ${venda.total()}");
   print('########################################');
 }
@@ -25,7 +25,7 @@ class Venda {
   String data;
   List<Item> itens;
   
-  double total() => itens.map((item) => item.total()).reduce((v, e) => v + e);
+  double total() => itens.fold(0, (soma, e) => soma + e.total());
 
   Venda({required this.data, required this.itens});
 }
