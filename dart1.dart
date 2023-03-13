@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:core';
 
 void main() {
   Produto prod1 = Produto();
@@ -24,15 +25,15 @@ void main() {
       Item item = Item();
       item.produto = produtos[prod-1];
       item.quant = quant;
-      print("Item adicionado à sacola!");
+      print("\nItem adicionado à sacola!");
       itens.add(item);
       print("Quer adicionar mais itens? (s/n): ");
       opcao_item = stdin.readLineSync();
     } while (opcao_item == 's'); 
     Venda venda = Venda();
-    venda.data = '09/03/2023';
+    venda.data = '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}';
     venda.itens = itens;
-    detalhes_venda(venda);
+    detalhesVenda(venda);
     print("\nQuer realizar uma nova venda? (s/n): ");
     opcao_venda = stdin.readLineSync();
   } while (opcao_venda == 's');
@@ -49,14 +50,13 @@ void cardapio() {
   print('########################################');
 }
 
-void detalhes_venda(Venda venda) {
+void detalhesVenda(Venda venda) {
   print(Process.runSync("clear", [], runInShell: true).stdout);
   print('########################################');
   print('#  D E T A L H E S   D A   V E N D A   #');
   print('########################################');
-  for (Item item in venda.itens) {
-    print("# ${item.produto.descricao} (${item.quant}x): R\$ ${item.total()}");
-  }
+  print('# Data: ${venda.data}');
+  print(venda.itens.map((item) => '# ${item.produto.descricao} (${item.quant}x): R\$ ${item.total()}').reduce((v, e) => '$v \n$e'));
   print("# Total: R\$ ${venda.total()}");
   print('########################################');
 }
