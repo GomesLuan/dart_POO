@@ -40,7 +40,6 @@ void main() {
 }
 
 void cardapio() {
-  print(Process.runSync("clear", [], runInShell: true).stdout);
   print('########################################');
   print('#           C A R D Á P I O            #');
   print('########################################');
@@ -51,7 +50,6 @@ void cardapio() {
 }
 
 void detalhesVenda(Venda venda) {
-  print(Process.runSync("clear", [], runInShell: true).stdout);
   print('########################################');
   print('#  D E T A L H E S   D A   V E N D A   #');
   print('########################################');
